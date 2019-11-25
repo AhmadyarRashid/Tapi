@@ -1,20 +1,22 @@
 import React, {Component} from 'react';
 
-class InPlay extends Component{
-    constructor(props){
+class InPlay extends Component {
+    constructor(props) {
         super(props);
     }
 
-    render(){
-        return(
+
+    render() {
+        // console.log('---------',this.props.main.data);
+        return (
             <div id="inplay">
                 <button className="collapsible" type="button">
-                    <span className="time italic">10/31 23:00</span>
+                    <span className="time italic">{this.props.main.data.time}</span>
                     -
-                    <span className="league-name italic">ITF W25 Tucson</span>
-                    <span className="home bold">Sophia Whittle</span>
-                    <span className="result">(3-0) (0:30)</span>
-                    <span className="away bold">Karina Miller</span>
+                    <span className="league-name italic"> {this.props.main.data.league.name}</span>
+                    <span className="home bold"> {this.props.main.data.home.name}</span> vs
+                    {/*<span className="result">(3-0) (0:30)</span>*/}
+                    <span className="away bold"> {this.props.main.data.away.name}</span>
                 </button>
                 <div>
                     <table>
@@ -123,6 +125,81 @@ class InPlay extends Component{
                         </tr>
                         </thead>
                         <tbody>
+                        {
+                            this.props.main.data1.results.map((item,index) =>
+                            {
+
+
+                                if(index != (19 || 20 || 22 || 23 || 25 || 30 || 31)){
+                                    let lastItem = item.lastApi.results;
+                                    if( lastItem && lastItem.length > 0){
+                                        console.log('Last Item ---------', index ,lastItem[0]);
+                                        let newItem = lastItem[0];
+                                        return(
+                                            <>
+                                                {/*OPPONENT*/}
+                                                <tr key={index}>
+                                                    <td className="home bold">
+                                                        {newItem.home.name}
+                                                    </td>
+                                                    <td>{newItem.stats && newItem.stats.break_point_conversions[0] + '%'}</td>
+                                                    <td>{newItem.stats && newItem.stats.win_1st_serve[0] + '%'}</td>
+                                                    <td>0</td>
+                                                    <td>XXX</td>
+                                                    <td>3-0</td>
+                                                    <td>XXX</td>
+                                                    <td>2</td>
+                                                    <td>88%</td>
+                                                    <td>80%</td>
+                                                    <td className="graycell bg-green">30</td>
+                                                    <td className="graycell">15</td>
+                                                    <td className="graycell bg-green">40</td>
+                                                </tr>
+
+                                                {/*PLAYER HERO*/}
+                                                <tr>
+                                                    <td className="graycell text-black">{newItem.away.name}</td>
+                                                    <td>{newItem.stats && newItem.stats.break_point_conversions[1] + '%'}</td>
+                                                    <td>{newItem.stats && newItem.stats.win_1st_serve[1]+'%'}</td>
+                                                    <td>2</td>
+                                                    <td className="text-red">XXX</td>
+                                                    <td className="text-red">2-6,6-4,10-7</td>
+                                                    <td>XXX</td>
+                                                    <td>3</td>
+                                                    <td>63%</td>
+                                                    <td>43%</td>
+                                                    <td className="graycell">15</td>
+                                                    <td className="graycell bg-green">40</td>
+                                                    <td className="graycell">0</td>
+                                                    <td className="graycell">40</td>
+                                                    <td className="graycell">0</td>
+                                                    <td className="graycell">0</td>
+                                                    <td className="graycell">30</td>
+                                                    <td className="graycell bg-green">30</td>
+                                                    <td className="graycell bg-red">15</td>
+                                                    <td className="graycell">40</td>
+                                                    <td className="graycell">40</td>
+                                                    <td className="graycell">30</td>
+                                                    <td className="graycell bg-red">30</td>
+                                                    <td className="graycell bg-green">15</td>
+                                                    <td className="graycell">0</td>
+                                                    <td className="graycell">40</td>
+                                                    <td className="graycell">40</td>
+                                                    <td className="graycell">15</td>
+                                                    <td className="graycell">10-7</td>
+                                                </tr>
+                                            </>
+                                        )
+                                    }
+
+                                }else {
+                                    return (
+                                        <></>
+                                    )
+                                }
+
+                            })
+                        }
                         <tr>
                             <td className="home bold">
                                 Sophia Whittle
