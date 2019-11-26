@@ -185,7 +185,7 @@ class InPlay extends Component {
 
                                                 <td>{oB}</td>
 
-                                                <td className="text-red">{(newItem.ss == null && '') || (newItem.ss.split(',').length == 2 && 'XX') || (newItem.ss.split(',').length == 3 && 'XXX')}</td>
+                                                <td className="text-red">XXX</td>
                                                 <td className="text-red">{newItem.ss && newItem.ss}</td>
                                                 <td>XXX</td>
                                                 <td>{hB}</td>

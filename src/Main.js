@@ -12,56 +12,106 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           main : [
-               {
-                   id: 'id',
-                   time:'time',
-                   time_status :0,
-                   league: {
-                       name: "league name"
-                   },
-                   home: {
-                       name : "home name"
-                   },
-                   away: {
-                       name : "away name"
-                   },
-                   res2: {
-                       results : [
-                           {
-                               id: 'res2 id',
-                               ss : "2-2",
-                               res3 : {
-                                   results:[
-                                       {
-                                           ss: '2-2',
-                                           home:{
-                                               name: 'res3 home name'
-                                           },
-                                           away:{
-                                               name : 'res3 home name'
-                                           },
-                                           stats: {
-                                               win_1st_serve:[
-                                                   45,56
-                                               ],
-                                               break_point_conversions:[
-                                                   12,23
-                                               ],
-                                               events: [
-                                                   {
-                                                       text : "Game 1 - Nina Alibalic - holds to 15"
-                                                   }
-                                               ]
-                                           }
-                                       }
-                                   ]
-                               }
-                           }
-                       ]
-                   }
-               }
-           ]
+            inPlayMain: [
+                {
+                    id: 'id',
+                    time: 'time',
+                    time_status: 0,
+                    league: {
+                        name: "league name"
+                    },
+                    home: {
+                        name: "home name"
+                    },
+                    away: {
+                        name: "away name"
+                    },
+                    res2: {
+                        results: [
+                            {
+                                id: 'res2 id',
+                                ss: "2-2",
+                                res3: {
+                                    results: [
+                                        {
+                                            ss: '2-2',
+                                            home: {
+                                                name: 'res3 home name'
+                                            },
+                                            away: {
+                                                name: 'res3 home name'
+                                            },
+                                            stats: {
+                                                win_1st_serve: [
+                                                    45, 56
+                                                ],
+                                                break_point_conversions: [
+                                                    12, 23
+                                                ],
+                                                events: [
+                                                    {
+                                                        text: "Game 1 - Nina Alibalic - holds to 15"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ],
+            upComingMain: [
+                {
+                    id: 'id',
+                    time: 'time',
+                    time_status: 0,
+                    league: {
+                        name: "league name"
+                    },
+                    home: {
+                        name: "home name"
+                    },
+                    away: {
+                        name: "away name"
+                    },
+                    res2: {
+                        results: [
+                            {
+                                id: 'res2 id',
+                                ss: "2-2",
+                                res3: {
+                                    results: [
+                                        {
+                                            ss: '2-2',
+                                            home: {
+                                                name: 'res3 home name'
+                                            },
+                                            away: {
+                                                name: 'res3 home name'
+                                            },
+                                            stats: {
+                                                win_1st_serve: [
+                                                    45, 56
+                                                ],
+                                                break_point_conversions: [
+                                                    12, 23
+                                                ],
+                                                events: [
+                                                    {
+                                                        text: "Game 1 - Nina Alibalic - holds to 15"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     }
 
@@ -71,7 +121,20 @@ class Main extends Component {
             .then(res => {
                 // console.log(res.data);
                 this.setState({
-                    main: res.data
+                    upComingMain: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+        axios
+            .get('http://localhost:3001/readDataInPlay')
+            .then(res => {
+                // console.log(res.data);
+                this.setState({
+                    inPlayMain: res.data
                 })
             })
             .catch(err => {
@@ -88,17 +151,17 @@ class Main extends Component {
             // Main
             <Tabs defaultActiveKey="1" onChange={this.callback}>
                 <TabPane tab="In Play" key="1">
-                    {this.state.main.map(item => {
-                        if(item.time_status == "1")
+                    {this.state.inPlayMain.map(item => {
+                        if (item.time_status == "1")
                             return <InPlay
                                 main={item}
                             />
                     })}
                 </TabPane>
                 <TabPane tab="Up Coming" key="2">
-                    {this.state.main.map(item => {
-                        if(item.time_status == "0")
-                            return  <Upcoming
+                    {this.state.upComingMain.map(item => {
+                        if (item.time_status == "0")
+                            return <Upcoming
                                 main={item}
                             />
                     })}
