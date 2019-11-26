@@ -7,7 +7,7 @@ class InPlay extends Component {
 
 
     render() {
-        // console.log('---------',this.props.main.data);
+
         return (
             <div id="inplay">
                 <button className="collapsible" type="button">
@@ -126,73 +126,112 @@ class InPlay extends Component {
                         </thead>
                         <tbody>
                         {
-                            this.props.main.data1.results.map((item,index) =>
-                            {
+                            this.props.main.data1.results.map((item, index) => {
 
 
-                                if(index != (19 || 20 || 22 || 23 || 25 || 30 || 31)){
+                                if (index != (19 || 20 || 22 || 23 || 25 || 30 || 31)) {
                                     let lastItem = item.lastApi.results;
-                                    if( lastItem && lastItem.length > 0){
-                                        console.log('Last Item ---------', index ,lastItem[0]);
+                                    if (lastItem && lastItem.length > 0) {
+                                        // console.log('Last Item ---------', index ,lastItem[0]);
                                         let newItem = lastItem[0];
-                                        return(
+                                        let oB = 0;
+                                        let hB = 0;
+                                        return (
                                             <>
-                                                {/*OPPONENT*/}
-                                                <tr key={index}>
-                                                    <td className="home bold">
-                                                        {newItem.home.name}
-                                                    </td>
-                                                    <td>{newItem.stats && newItem.stats.break_point_conversions[0] + '%'}</td>
-                                                    <td>{newItem.stats && newItem.stats.win_1st_serve[0] + '%'}</td>
-                                                    <td>0</td>
-                                                    <td>XXX</td>
-                                                    <td>3-0</td>
-                                                    <td>XXX</td>
-                                                    <td>2</td>
-                                                    <td>88%</td>
-                                                    <td>80%</td>
-                                                    <td className="graycell bg-green">30</td>
-                                                    <td className="graycell">15</td>
-                                                    <td className="graycell bg-green">40</td>
-                                                </tr>
+                                            {/*PLAYER HERO*/}
+                                            <tr>
+                                                <td className="graycell text-black">{newItem.away.name}</td>
 
-                                                {/*PLAYER HERO*/}
-                                                <tr>
-                                                    <td className="graycell text-black">{newItem.away.name}</td>
-                                                    <td>{newItem.stats && newItem.stats.break_point_conversions[1] + '%'}</td>
-                                                    <td>{newItem.stats && newItem.stats.win_1st_serve[1]+'%'}</td>
-                                                    <td>2</td>
-                                                    <td className="text-red">XXX</td>
-                                                    <td className="text-red">2-6,6-4,10-7</td>
-                                                    <td>XXX</td>
-                                                    <td>3</td>
-                                                    <td>63%</td>
-                                                    <td>43%</td>
-                                                    <td className="graycell">15</td>
-                                                    <td className="graycell bg-green">40</td>
-                                                    <td className="graycell">0</td>
-                                                    <td className="graycell">40</td>
-                                                    <td className="graycell">0</td>
-                                                    <td className="graycell">0</td>
-                                                    <td className="graycell">30</td>
-                                                    <td className="graycell bg-green">30</td>
-                                                    <td className="graycell bg-red">15</td>
-                                                    <td className="graycell">40</td>
-                                                    <td className="graycell">40</td>
-                                                    <td className="graycell">30</td>
-                                                    <td className="graycell bg-red">30</td>
-                                                    <td className="graycell bg-green">15</td>
-                                                    <td className="graycell">0</td>
-                                                    <td className="graycell">40</td>
-                                                    <td className="graycell">40</td>
-                                                    <td className="graycell">15</td>
-                                                    <td className="graycell">10-7</td>
-                                                </tr>
+                                            </tr>
+
+                                            {/*OPPONENT*/}
+                                            <tr key={index}>
+                                                <td className="home bold">
+                                                    {newItem.home.name}
+                                                </td>
+                                                <td>{newItem.stats && newItem.stats.break_point_conversions[0] + '%'}</td>
+                                                <td>{newItem.stats && newItem.stats.win_1st_serve[0] + '%'}</td>
+
+                                                {newItem.events && newItem.events.length > 0 &&
+                                                newItem.events.map((i, i1) => {
+                                                    let array = i.text.split('-');
+                                                    if (array.length > 2) {
+                                                        let scoreArray = array[2].trim().split(' ');
+
+                                                        if(array[1].trim() == newItem.away.name){
+                                                            if(scoreArray[0].trim() == "breaks"){
+                                                                hB++;
+                                                            }
+                                                            // return (
+                                                            //     <td key={i1} className={scoreArray[0].trim() == "breaks" ? "graycell bg-green" : "graycell"}>{
+                                                            //         isNaN(scoreArray[scoreArray.length - 1]) == true ? 0 : scoreArray[scoreArray.length - 1]}
+                                                            //     </td>
+                                                            // )
+                                                        }else if(array[1].trim() == newItem.home.name){
+                                                            if(scoreArray[0].trim() == "breaks"){
+                                                                oB++;
+                                                            }
+                                                        }else {
+                                                           // do nothing
+                                                        }
+                                                    } else {
+                                                        // do nothing
+                                                    }
+                                                })
+                                                }
+
+
+
+                                                <td>{oB}</td>
+                                                <td className="text-red">{(newItem.ss == 'away' && '') || (newItem.ss.split(',').length == 2 && 'XX') || (newItem.ss.split(',').length == 3 && 'XXX')}</td>
+                                                <td className="text-red">{newItem.ss && newItem.ss}</td>
+                                                <td>XXX</td>
+                                                <td>{hB}</td>
+                                                <td>{newItem.stats && newItem.stats.break_point_conversions[1] + '%'}</td>
+                                                <td>{newItem.stats && newItem.stats.win_1st_serve[1] + '%'}</td>
+
+                                                {newItem.events && newItem.events.length > 0 &&
+                                                newItem.events.map((i, i1) => {
+                                                    let array = i.text.split('-');
+                                                    if (array.length > 2) {
+                                                        let scoreArray = array[2].trim().split(' ');
+
+                                                        if(array[1].trim() == newItem.away.name){
+                                                            return (
+                                                                <td key={i1} className={scoreArray[0].trim() == "breaks" ? "graycell bg-green" : "graycell"}>{
+                                                                    isNaN(scoreArray[scoreArray.length - 1]) == true ? 0 : scoreArray[scoreArray.length - 1]}
+                                                                </td>
+                                                            )
+                                                        }else if(array[1].trim() == newItem.home.name){
+                                                            return (
+                                                                <td key={i1} className={scoreArray[0].trim() == "breaks" ? "graycell bg-red" : "graycell"}>{
+                                                                    isNaN(scoreArray[scoreArray.length - 1]) == true ? 0 : scoreArray[scoreArray.length - 1]}
+                                                                </td>
+                                                            )
+                                                        }else {
+                                                            return (
+                                                                <td key={i1} className="graycell">{
+                                                                    isNaN(scoreArray[scoreArray.length - 1]) == true ? 0 : scoreArray[scoreArray.length - 1]}
+                                                                </td>
+                                                            )
+                                                        }
+
+
+                                                    } else {
+                                                        return (
+                                                            <td key={i1} className="graycell"></td>
+                                                        )
+                                                    }
+
+                                                })
+                                                }
+
+                                            </tr>
                                             </>
                                         )
                                     }
 
-                                }else {
+                                } else {
                                     return (
                                         <></>
                                     )
@@ -200,122 +239,6 @@ class InPlay extends Component {
 
                             })
                         }
-                        <tr>
-                            <td className="home bold">
-                                Sophia Whittle
-                            </td>
-                            <td>0%</td>
-                            <td>47%</td>
-                            <td>0</td>
-                            <td>XXX</td>
-                            <td>3-0</td>
-                            <td>XXX</td>
-                            <td>2</td>
-                            <td>88%</td>
-                            <td>80%</td>
-                            <td className="graycell bg-green">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell bg-green">40</td>
-                        </tr>
-                        <tr>
-                            <td className="graycell text-black">Dalayna Hewitt</td>
-                            <td>33%</td>
-                            <td>74%</td>
-                            <td>2</td>
-                            <td className="text-red">XXX</td>
-                            <td className="text-red">2-6,6-4,10-7</td>
-                            <td>XXX</td>
-                            <td>3</td>
-                            <td>63%</td>
-                            <td>43%</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell bg-green">40</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell bg-green">30</td>
-                            <td className="graycell bg-red">15</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell bg-red">30</td>
-                            <td className="graycell bg-green">15</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">10-7</td>
-                        </tr>
-                        <tr>
-                            <td className="away bold">
-                                Karina Miller
-                            </td>
-                            <td>80%</td>
-                            <td>88%</td>
-                            <td>2</td>
-                            <td>XXX</td>
-                            <td>0-3</td>
-                            <td>XXX</td>
-                            <td>0</td>
-                            <td>47%</td>
-                            <td>0%</td>
-                            <td className="graycell bg-red">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell bg-red">40</td>
-                        </tr>
-                        <tr>
-                            <td className="graycell text-black">Malaika Rapolu</td>
-                            <td>67%</td>
-                            <td>44%</td>
-                            <td>2</td>
-                            <td className="text-red">XXX</td>
-                            <td className="text-red">7-5,5-7,5-10</td>
-                            <td>XXX</td>
-                            <td>3</td>
-                            <td>47%</td>
-                            <td>64%</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell bg-green">30</td>
-                            <td className="graycell bg-red">40</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell bg-green">30</td>
-                            <td className="graycell bg-red">40</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell bg-red">40</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">0</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">40</td>
-                            <td className="graycell">15</td>
-                            <td className="graycell">30</td>
-                            <td className="graycell">40</td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
